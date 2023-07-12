@@ -1,7 +1,7 @@
 import json
 import re
 from datetime import datetime
-import numpy as np
+# import numpy as np
 import matplotlib.pyplot as plt
 
 # Открываем наш файл JSON
@@ -9,7 +9,8 @@ with open('/Users/mikhail/Desktop/Code/work_with_chat_final/result_full.json', '
     data = json.load(f)
 
 # Описываем в RegExp слово, которое будем искать
-pattern = re.compile(r'\s[Пп]ив[нкчоаы]', re.IGNORECASE)
+# , re.IGNORECASE)
+pattern = re.compile(r'(|[^по])[Пп][Ии][ФфВв][НнКкЧчОоАаЫы]')
 
 # Создаем переменные для временных периодов
 morning_period = list(range(4, 12))  # с 4:00 до 12:00
@@ -17,12 +18,13 @@ day_period = list(range(12, 17))  # с 12:00 до 17:00
 evening_period = range(17, 24)  # с 17:00 до 00:00
 night_period = list(range(0, 5))  # с 00:00 до 5:00
 
-# Ищем сообщения, которые содержат искомое слово и разделяем их по времени суток
+# И пустые списки для этих периодов
 morning_messages = []
 day_messages = []
 evening_messages = []
 night_messages = []
 
+# Ищем сообщения, которые содержат искомое слово и разделяем их по времени суток
 for message in data['messages']:
     if 'text' in message:
         # Проверяем не принадлежит ли наше сообщение к классу "список"
@@ -52,7 +54,14 @@ for message in data['messages']:
             elif hour in night_period:
                 night_messages.append(message['text'])
 
+# При необходимости можно проверить качество сохраненных сообщений
+# print(morning_messages[:])
+# print(day_messages[:])
+# print(evening_messages[:])
+# print(night_messages[:])
+
 # Выводим колличество сообщений для каждого времени суток
+# Для этого считаем длину списков, в которые мы добавили текст сообщений
 print("Количество сообщений содержащих упоминание пива по времени суток")
 print("Утро:", len(morning_messages))
 print("День:", len(day_messages))
